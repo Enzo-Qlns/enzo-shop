@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Enzo Shop - Mes commandes{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-3">
+            {% include 'account/_menu.html.twig' %}
+        </div>
+        <div class="col-md-9">
+            <h1 class="mb-4">Mes commandes</h1>
+            
+            {% if orders|length > 0 %}
+                {% for order in orders %}
+                    <div class="card mb-4">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="mb-0">Commande #{{ order.id }}</h5>
+                                <small class="text-muted">Passée le {{ order.createdAt|date('d/m/Y') }}</small>
+                            </div>
+                            <span class="badge {% if order.state == 'En attente' %}bg-warning{% elseif order.state == 'En cours de préparation' %}bg-info{% elseif order.state == 'En cours de livraison' %}bg-primary{% else %}bg-success{% endif %}">
+                                {{ order.state }}
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>Adresse de livraison</h6>
+                                    <p>{{ order.delivery|raw }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Transporteur</h6>
+                                    <p>{{ order.carrierName }}</p>
+                                    <p>Frais de port : {{ order.carrierPrice|price }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Produit</th>
+                                            <th>Quantité</th>
+                                            <th>Prix unitaire</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for detail in order.orderDetails %}
+                                            <tr>
+                                                <td>
+                                                    <img src="/uploads/products/{{ detail.productIllustration }}" alt="{{ detail.product }}" class="img-fluid" style="width: 50px;">
+                                                    {{ detail.product }}
+                                                </td>
+                                                <td>{{ detail.productQuantity }}</td>
+                                                <td>{{ detail.productPrice|price }}</td>
+                                                <td>{{ (detail.productPrice * detail.productQuantity)|price }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-end">
+                                <p><strong>Total TVA :</strong> {{ order.totalTVA|price }}</p>
+                                <p><strong>Total TTC :</strong> {{ order.totalTTC|price }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-info">
+                    Vous n'avez pas encore passé de commande.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %} 

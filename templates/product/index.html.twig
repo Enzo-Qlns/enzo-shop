@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <section>
+        <h2 class="mx-5">
+            Découvrez nos produits
+        </h2>
+        <div class="row mt-5">
+            {% for product in products %}
+                <div class="col-12 col-md-6 col-lg-3 mb-6 mb-lg-0">
+                    <div class="p-6 bg-white">
+                        <a class="d-block px-6 mt-6 mb-2 link-dark text-decoration-none" href="#">
+                            <img class="mb-5 mx-auto w-100 img-fluid" style="height: 224px; object-fit: contain;"
+                                 src="/uploads/products/{{ product.illustration }}" alt="product image"/>
+                            <div class="mx-auto">
+                                <h5 class="mb-2">{{ product.name }}</h5>
+                                <p class="h6 text-info">{{ product.price | price }}</p>
+                            </div>
+                        </a>
+                        <a class="ms-auto me-2 d-flex align-items-center justify-content-center border rounded-3"
+                           href="{{ path('app_product', {slug: product.slug}) }}" style="width: 48px; height: 48px;">
+                            <svg width="12" height="12" viewbox="0 0 12 12" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <rect x="5" width="2" height="12" fill="#161616"></rect>
+                                <rect x="12" y="5" width="2" height="12" transform="rotate(90 12 5)"
+                                      fill="#161616"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            {% else %}
+                <p>Aucun produit trouvé dans cette catégorie.</p>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}

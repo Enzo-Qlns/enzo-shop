@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une adresse{% endblock %}
+
+{% block body %}
+    <div class="row gutters-sm">
+        <div class="col-md-4 mb-3">
+            {% include 'account/_menu.html.twig' %}
+        </div>
+        <div class="col-md-8">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="row">
+                        {{ form_start(addressForm) }}
+                            {{ form_row(addressForm.firstname) }}
+                            {{ form_row(addressForm.lastname) }}
+                            {{ form_row(addressForm.address, {'attr': {'id': 'address-input', 'autocomplete': 'off'}}) }}
+                            {{ form_row(addressForm.city) }}
+                            {{ form_row(addressForm.country) }}
+                            {{ form_row(addressForm.phone) }}
+                            {{ form_row(addressForm.submit) }}
+                        {{ form_end(addressForm) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

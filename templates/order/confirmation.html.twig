@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Enzo Shop - Confirmation de commande{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i data-feather="check-circle" class="text-success" style="width: 64px; height: 64px;"></i>
+                    <h1 class="mt-3">Merci pour votre commande !</h1>
+                    <p class="lead">Votre commande #{{ order.id }} a bien été enregistrée.</p>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Adresse de livraison</h5>
+                            <p>{{ order.delivery|raw }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Transporteur</h5>
+                            <p>{{ order.carrierName }}</p>
+                            <p>Frais de port : {{ order.carrierPrice|price }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <h5>Produits commandés</h5>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Produit</th>
+                                    <th>Quantité</th>
+                                    <th>Prix unitaire</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for detail in order.orderDetails %}
+                                <tr>
+                                    <td>
+                                        <img src="/uploads/products/{{ detail.productIllustration }}" alt="{{ detail.product }}" class="img-fluid" style="width: 50px;">
+                                        {{ detail.product }}
+                                    </td>
+                                    <td>{{ detail.productQuantity }}</td>
+                                    <td>{{ detail.productPrice|price }}</td>
+                                    <td>{{ (detail.productPrice * detail.productQuantity)|price }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-end">
+                        <p><strong>Total TVA :</strong> {{ order.totalTVA|price }}</p>
+                        <p><strong>Total TTC :</strong> {{ order.totalTTC|price }}</p>
+                    </div>
+                    <hr>
+                    <p>Un email de confirmation vous a été envoyé.</p>
+                    <a href="{{ path('app_home') }}" class="btn btn-primary">Retour à l'accueil</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

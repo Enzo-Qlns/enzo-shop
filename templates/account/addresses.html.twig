@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes adresses{% endblock %}
+
+{% block body %}
+    <div class="row gutters-sm">
+        <div class="col-md-4 mb-3">
+            {% include 'account/_menu.html.twig' %}
+        </div>
+        <div class="col-md-8">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h1 class="mb-4">Mes adresses</h1>
+
+                    {% if addresses is empty %}
+                        <div class="alert alert-info">
+                            Vous n'avez pas encore d'adresse enregistrée.
+                        </div>
+                    {% else %}
+                        <div class="row">
+                            {% for address in addresses %}
+                                <div class="col-md-8 mb-4">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ address.firstname }} {{ address.lastname }}</h5>
+                                            <p class="card-text">
+                                                <strong>Adresse :</strong><br>
+                                                {{ address.address }}<br>
+                                                {{ address.city }}<br>
+                                                {{ address.country }}<br>
+                                                <strong>Téléphone :</strong> {{ address.phone }}
+                                            </p>
+                                            <div class="d-flex justify-content-between">
+                                                <a href="{{ path('app_modify_address', {'id': address.id}) }}" class="btn btn-primary">Modifier</a>
+                                                <a href="{{ path('app_delete_address', {'id': address.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette adresse ?')">Supprimer</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <div class="mt-4">
+                        <a href="{{ path('app_add_address') }}" class="btn btn-success">Ajouter une adresse</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

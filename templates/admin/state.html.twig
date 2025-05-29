@@ -1,0 +1,11 @@
+{% if value == 'En attente' %}
+    <span class="badge bg-warning">{{ value }}</span>
+{% elseif value == 'En cours de préparation' %}
+    <span class="badge bg-info">{{ value }}</span>
+{% elseif value == 'En cours de livraison' %}
+    <span class="badge bg-primary">{{ value }}</span>
+{% elseif value == 'Livrée' %}
+    <span class="badge bg-success">{{ value }}</span>
+{% else %}
+    <span class="badge bg-secondary">{{ value }}</span>
+{% endif %} 

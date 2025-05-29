@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Enzo Shop - Commande{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Enzo Shop - Commande</h1>
+
+    {{ form_start(orderForm) }}
+    {{ form_widget(orderForm) }}
+    {{ form_end(orderForm) }}
+</div>
+{% endblock %}

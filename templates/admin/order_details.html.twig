@@ -1,0 +1,71 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}Détails de la commande #{{ order.id }}{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Informations de livraison</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Adresse :</strong> {{ order.delivery|raw }}</p>
+                        <p><strong>Transporteur :</strong> {{ order.carrierName }}</p>
+                        <p><strong>Frais de port :</strong> {{ order.carrierPrice|price }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Récapitulatif</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Date de commande :</strong> {{ order.createdAt|date('d/m/Y H:i') }}</p>
+                        <p><strong>Statut :</strong> {{ order.state }}</p>
+                        <p><strong>Total TVA :</strong> {{ order.totalTVA|price }}</p>
+                        <p><strong>Total TTC :</strong> {{ order.totalTTC|price }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Produits commandés</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Produit</th>
+                                <th>Illustration</th>
+                                <th>Quantité</th>
+                                <th>Prix unitaire</th>
+                                <th>TVA</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for detail in order.orderDetails %}
+                                <tr>
+                                    <td>{{ detail.product }}</td>
+                                    <td>
+                                        <img src="/uploads/products/{{ detail.productIllustration }}" alt="{{ detail.product }}" style="max-width: 50px;">
+                                    </td>
+                                    <td>{{ detail.productQuantity }}</td>
+                                    <td>{{ detail.productPrice|price }}</td>
+                                    <td>{{ detail.productTva }}%</td>
+                                    <td>{{ (detail.productPrice * detail.productQuantity * (1 + detail.productTva / 100))|price }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 

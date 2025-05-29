@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ category.name }} - Enzo Shop{% endblock %}
+
+{% block body %}
+    <section class="category-section fade-in">
+        <!-- Category Header -->
+        <div class="category-header text-center mb-5">
+            <h1 class="display-4 fw-bold mb-3">{{ category.name }}</h1>
+            <p class="lead text-muted">{{ category.description|default('Découvrez notre sélection de produits de qualité') }}</p>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="row g-4">
+            {% for product in category.products %}
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                    <div class="card product-card h-100 fade-in">
+                        <div class="card-img-wrapper">
+                            <img src="/uploads/products/{{ product.illustration }}" 
+                                 class="card-img-top" 
+                                 alt="{{ product.name }}"
+                                 style="height: 200px; object-fit: contain;">
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text text-muted mb-3">
+                                {{ product.description|default('')|slice(0, 100)|raw }}{% if product.description|length > 100 %}...{% endif %}
+                            </p>
+                            <div class="mt-auto">
+                                <div class="d-flex flex-column">
+                                    <span class="h4 mb-3 text-primary text-center">{{ product.PriceWithTva }}€</span>
+                                    <a href="{{ path('app_product', {slug : product.slug}) }}" class="btn btn-primary">
+                                        <i data-feather="shopping-cart" class="me-2"></i>
+                                        Voir le produit
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-12">
+                    <div class="alert alert-info text-center" role="alert">
+                        <i data-feather="info" class="me-2"></i>
+                        Aucun produit trouvé dans cette catégorie.
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </section>
+
+    <!-- Related Categories -->
+    {% if relatedCategories is defined and relatedCategories|length > 0 %}
+        <section class="related-categories mt-5">
+            <h2 class="h3 mb-4">Catégories similaires</h2>
+            <div class="row g-4">
+                {% for relatedCategory in relatedCategories %}
+                    <div class="col-md-4">
+                        <a href="{{ path('app_category', {slug: relatedCategory.slug}) }}" class="text-decoration-none">
+                            <div class="card category-card h-100 fade-in">
+                                <div class="card-body text-center">
+                                    <i data-feather="folder" class="feature-icon mb-3"></i>
+                                    <h3 class="h5 mb-2">{{ relatedCategory.name }}</h3>
+                                    <p class="text-muted mb-0">{{ relatedCategory.products|length }} produits</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+{% endblock %}

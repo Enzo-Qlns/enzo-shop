@@ -92,13 +92,14 @@ class Cart
     public function getTotalWt()
     {
         $cart = $this->requestStack->getSession()->get('cart');
-
         $price = 0;
 
+        // Check if cart is empty
+        if (!isset($cart)) {
+            return 0;
+        }
 
         //à chaque prodiut dans ton panier tu incremente la valeur de TotalQuantity
-
-
         foreach ($cart as $product) {
             $price += $product['object']->getPriceWithTva() * $product['qty'];
         }
